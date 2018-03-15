@@ -105,9 +105,45 @@
                             <span>不满意</span>
                         </Radio>
                     </RadioGroup>
-
                 </div>
             </div>
+
+            <div class="survy-item-wrap">
+                <p class="survy-topic"> <span class="iconfont-financing icons">&#xe69b;</span><span>阁下认为服务还需要哪些改进的地方？</span></p>
+                <div class="survy-answer-list">
+                        <Input maxlength="100" v-model="improveAdvice" type="textarea" :autosize="{minRows: 4,maxRows: 5}" placeholder="填写您的意见或者建议"></Input>
+                </div>
+            </div>
+
+            <div class="survy-item-wrap">
+                <p class="survy-topic"> <span class="iconfont-financing icons">&#xe69b;</span><span>阁下认为我们平台还应该提供哪些需要的服务？</span></p>
+                <div class="survy-answer-list">
+                    <Input maxlength="100"  v-model="extraServer" type="textarea" :autosize="{minRows: 4,maxRows: 5}" placeholder="填写您的意见或者建议"></Input>
+                </div>
+            </div>
+
+            <div class="survy-item-wrap">
+                <p class="survy-topic"> <span class="iconfont-financing icons">&#xe69b;</span><span>其他建议或意见？</span></p>
+                <div class="survy-answer-list">
+                    <Input maxlength="100"  v-model="otherAdvice" type="textarea"  :autosize="{minRows: 4,maxRows: 5}" placeholder="填写您的意见或者建议"></Input>
+                </div>
+            </div>
+
+            <div class="survy-item-wrap">
+                 <p class="name-wrap"><span class="iconfont-financing icons">&#xe69b;</span> <span class="title">姓名</span><span  class="value">  <Input clearable  v-model="adviceName" placeholder="输入姓名" clearable style="width: 200px"></Input></span></p>
+                 <p class="name-wrap"><span class="iconfont-financing icons">&#xe69b;</span> <span class="title">手机号</span><span class="value">  <Input  clearable v-model="phoneNum" placeholder="输入手机号" clearable style="width: 200px"></Input></span></p>
+            </div>
+
+            <div class="survy-item-wrap">
+                <p class="title">说明：</p>
+                <p>① 请客户认真填写以便帮助我们做出统计结果以及提供更好的服务</p>
+                <p>② 再次感谢阁下对我们公司工作的支持和配合</p>
+            </div>
+
+            <div class="submit-btn-wrap">
+                <Button type="success" long>提交</Button>
+            </div>
+
 
         </div>
 
@@ -149,13 +185,30 @@
                 .icons{
                     font-size: 12px;
                     transform: scale(0.7);
-                    color:#ccc;
+                    color:#e83a3a;
                     display: inline-block;
                     padding-right: 1em;
                 }
                 .survy-answer-list{
                     margin-left: 2em;
                 }
+                .name-wrap{
+                    margin-bottom: 1em;
+                    .title{
+                        display: inline-block;
+                        width: 4em;
+                    }
+                    .value{
+
+                    }
+
+                }
+            }
+
+            .submit-btn-wrap{
+                margin: 0px auto;
+                width: 10em;
+
             }
 
         }
@@ -183,7 +236,13 @@
                 serverSatisfaction:1,
                 plateSatisfaction:1,
                 safeSatisfaction:1,
-                overallSatisfaction:1
+                overallSatisfaction:1,
+                improveAdvice:"",
+                extraServer:"",
+                otherAdvice:"",
+
+                adviceName:"",
+                phoneNum:""
 
             }
 

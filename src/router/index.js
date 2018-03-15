@@ -140,10 +140,111 @@ var routes = [{
     },
 
     {
+        path: '/userCenter',
+        name: 'userCenter',
+        component: function (resolve) {
+            require.ensure([], function () {
+                resolve(require("pages/manager/userCenter.vue"));
+            }, "user-center");
+        },
+        children: [
+            {
+                path: 'authCheck',
+                name:"authCheck_index",
+                component: function (resolve) {
+                    require.ensure([], function () {
+                        resolve(require('pages/manager/authorityCheck/index.vue'));
+                    }, 'authCheck_index');
+                },
+                meta: {
+                    title: "资质审核"
+                }
+            },
+            {
+                path: 'jointTrade',
+                name:"jointTrade_index",
+                component: function (resolve) {
+                    require.ensure([], function () {
+                        resolve(require('pages/manager/jointTrade/index.vue'));
+                    }, 'jointServer_index');
+                },
+                meta: {
+                    title: "投融对接"
+                }
+            },
+            {
+                path: 'jointServer',
+                name:"jointServer_index",
+                component: function (resolve) {
+                    require.ensure([], function () {
+                        resolve(require('pages/manager/jointServer/index.vue'));
+                    }, 'jointServer_index');
+                },
+                meta: {
+                    title: "投融对接"
+                }
+            },
+            {
+                path: 'plateServer',
+                name:"plateServer_index",
+                component: function (resolve) {
+                    require.ensure([], function () {
+                        resolve(require('pages/manager/jointServer/index.vue'));
+                    }, 'plateServer_index');
+                },
+                meta: {
+                    title: "平台服务"
+                }
+            },
+            {
+                path: 'postMessage',
+                name:"postMessage_index",
+                component: function (resolve) {
+                    require.ensure([], function () {
+                        resolve(require('pages/manager/jointServer/index.vue'));
+                    }, 'plateServer_index');
+                },
+                meta: {
+                    title: "信息发布"
+                }
+            },
+            {
+                path: 'userManager',
+                name:"userManager_index",
+                component: function (resolve) {
+                    require.ensure([], function () {
+                        resolve(require('pages/manager/userManager/index.vue'));
+                    }, 'userManager_index');
+                },
+                meta: {
+                    title: "用户管理"
+                }
+            },
+            {
+                path: 'adManager',
+                name:"adManager_index",
+                component: function (resolve) {
+                    require.ensure([], function () {
+                        resolve(require('pages/manager/adManager/index.vue'));
+                    }, 'adManager_index');
+                },
+                meta: {
+                    title: "广告管理"
+                }
+            }
+        ],
+
+        meta: {
+            title: "个人中心"
+        }
+
+    },
+    {
         path: '*',
         redirect: "/home"
 
     }
+
 
 ]
 

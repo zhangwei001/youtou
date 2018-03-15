@@ -72,14 +72,18 @@
 
 
     export default {
-        name: " ",
+        name: "login",
         props: {
 
         },
         components: {},
         data() {
             return {
-                isLogin:false
+                isLogin:false,
+                loading:false,
+                passWord:"",
+                userName:""
+
 
             }
 
@@ -93,7 +97,7 @@
             },
             toLogin(){
                 this.isLogin = true;
-
+                this.$router.replace({ name: 'userCenter'})
             }
         },
         watch: {},
