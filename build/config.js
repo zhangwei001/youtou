@@ -20,7 +20,7 @@ module.exports = {
         , extract: true //css提取
         , index: path.resolve(__dirname, '../dist/views/index.html') //入口文输出的路径
         , iviewPath:   '/web/static/src/'
-        ,assets:"/web/dist/assets/"
+        ,assets:"/web/dist/web/dist/assets/"
 
     }
 }
