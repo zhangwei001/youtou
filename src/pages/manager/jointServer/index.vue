@@ -13,7 +13,7 @@
 
 
     export default {
-        name: " ",
+        name: "jointServer",
         props: {
             addListData: {
                 type: Object,

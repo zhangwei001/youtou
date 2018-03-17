@@ -25,7 +25,6 @@
 
 <script type="text/babel">
     import "src/assets/style/fontIcon.css";  //引用公共图标库
-
     export default {
         name: 'App'
         ,data () {

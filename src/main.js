@@ -17,7 +17,7 @@ iview.LoadingBar.config({
 });
 
 var vueRouter = new VueRouter({
-    mode: 'history' // //去掉#号的模式hash(#),history(无#)
+    mode: 'hash' // //去掉#号的模式hash(#),history(无#)
     ,base:"/",
     routes:router
 })

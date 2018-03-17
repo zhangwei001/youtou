@@ -11,10 +11,10 @@ export default {
     //更改状态的唯一方法
     mutations:{
         modifiedform(state,payload){
-            console.log(1111,state,payload);
+
             state.isModifiedForm=payload.isModified;
         }
-    },  
+    },
     // 异步操作处理
     actions:{
 

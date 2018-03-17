@@ -6,12 +6,14 @@ import checkoutState from './checkoutState.js'
 
 const debug = process.env.NODE_ENV !== 'production'
 
+
+
 Vue.config.debug = debug;
 
 export default new Vuex.Store({
   modules: {
-      common
-      ,checkoutState
+      common,
+      checkoutState
   },
-  strict: debug,
+  strict: debug
 })
