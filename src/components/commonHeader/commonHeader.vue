@@ -139,7 +139,7 @@
 
         },
         created() {
-
+           // this.$store.dispatch("getTouristInfo")
         },
         methods: {
 

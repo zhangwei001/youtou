@@ -11,6 +11,34 @@ var routes = [{
     redirect: "/home", //默认跳转到在职员工列表
     children: [
         {
+            path: 'companyCheck/:companyId',
+            name:"companyCheck",
+            component: function (resolve) {
+                require.ensure([], function () {
+                    resolve(require('pages/companyCheck/index.vue'));
+                }, 'companyCheck');
+            },
+            meta: {
+                title: "企查查",
+                keepAlive: true
+            }
+        },
+        {
+            path: 'addMatiral/:companyId',
+            name:"addMatiral",
+            component: function (resolve) {
+                require.ensure([], function () {
+                    resolve(require('pages/companyCheck/addMatiral.vue'));
+                }, 'addMatiral');
+            },
+            meta: {
+                title: "补充资料",
+                keepAlive: true
+            }
+        },
+
+
+        {
             path: 'home',
             name:"Home_index",
             component: function (resolve) {
@@ -32,9 +60,64 @@ var routes = [{
                     resolve(require('pages/fund/index.vue'));
                 }, 'fund_index');
             },
+
             meta: {
                 title: "找资金",
-                keepAlive: true
+                keepAlive: false
+            }
+        },
+        {
+            path:"fundOrgDetails/:fundId",
+            name:"fundOrgDetails",
+            component: function (resolve) {
+                require.ensure([], function () {
+                    resolve(require('pages/fund/child/fundOrgDetails.vue'));
+                }, 'fundOrgDetails_index');
+            },
+            meta: {
+                title: " ",
+                keepAlive: false
+            }
+        },
+        {
+            path:"fundOrgDetails/:fundId/serverHelp",
+            name:"serverHelp",
+            component: function (resolve) {
+                require.ensure([], function () {
+                    resolve(require('pages/fund/child/serverHelp.vue'));
+                }, 'fundOrgDetails_index');
+            },
+            redirect:{name:"orgManagerHelp"},
+            children:[
+                {
+                    path: 'orgManagerHelp',
+                    name:"orgManagerHelp",
+                    component: function (resolve) {
+                        require.ensure([], function () {
+                            resolve(require('pages/fund/child/orgManagerHelp.vue'));
+                        }, 'orgManagerHelp');
+                    },
+                    meta: {
+                        title: "公司管理",
+                        keepAlive: true
+                    }
+                },
+                {
+                    path: 'fundServerHelp',
+                    name:"fundServerHelp",
+                    component: function (resolve) {
+                        require.ensure([], function () {
+                            resolve(require('pages/fund/child/fundServerHelp.vue'));
+                        }, 'fundServerHelp');
+                    },
+                    meta: {
+                        title: "融资服务",
+                        keepAlive: true
+                    }
+                }],
+            meta: {
+                title: " ",
+                keepAlive: false
             }
         },
         //找企业
@@ -131,14 +214,25 @@ var routes = [{
         {
             path: '/userCenter',
             name: 'userCenter',
-            //redirect: "userHome",
+             redirect: {name:"userHome"},
             component: function (resolve) {
                 require.ensure([], function () {
                     resolve(require("pages/manager/userCenter.vue"));
                 }, "user-center");
             },
             children: [
-
+                {
+                    path: 'userHome',
+                    name:"userHome",
+                    component: function (resolve) {
+                        require.ensure([], function () {
+                            resolve(require('pages/manager/child/userHome.vue'));
+                        }, 'userHome');
+                    },
+                    meta: {
+                        title: "个人中心"
+                    }
+                },
                 {
                     path: 'authCheck',
                     name:"authCheck_index",
@@ -157,8 +251,72 @@ var routes = [{
                     component: function (resolve) {
                         require.ensure([], function () {
                             resolve(require('pages/manager/jointTrade/index.vue'));
-                        }, 'jointServer_index');
+                        }, 'jointTrade_index');
                     },
+                    redirect:{name:"orgOffer"},
+                    children:[
+                        {
+                            path: 'orgOffer',
+                            name:"orgOffer",
+                            component: function (resolve) {
+                                require.ensure([], function () {
+                                    resolve(require('pages/manager/jointTrade/child/orgOffer.vue'));
+                                }, 'orgOffer');
+                            },
+                            meta: {
+                                title: "机构邀约"
+                            }
+                        },
+                        {
+                            path: 'orgDeliver',
+                            name:"orgDeliver",
+                            component: function (resolve) {
+                                require.ensure([], function () {
+                                    resolve(require('pages/manager/jointTrade/child/orgDeliver.vue'));
+                                }, 'orgDeliver');
+                            },
+                            meta: {
+                                title: "企业投递"
+                            }
+                        },
+                        {
+                            path: 'orgFeedback',
+                            name:"orgFeedback",
+                            component: function (resolve) {
+                                require.ensure([], function () {
+                                    resolve(require('pages/manager/jointTrade/child/orgFeedback.vue'));
+                                }, 'orgFeedback');
+                            },
+                            meta: {
+                                title: "机构反馈"
+                            }
+                        },
+                        {
+                            path: 'materialAdd',
+                            name:"materialAdd",
+                            component: function (resolve) {
+                                require.ensure([], function () {
+                                    resolve(require('pages/manager/jointTrade/child/materialAdd.vue'));
+                                }, 'materialAdd');
+                            },
+                            meta: {
+                                title: "资料补充"
+                            }
+                        },
+                        {
+                            path: 'orgCheck',
+                            name:"orgCheck",
+                            component: function (resolve) {
+                                require.ensure([], function () {
+                                    resolve(require('pages/manager/jointTrade/child/orgCheck.vue'));
+                                }, 'orgCheck');
+                            },
+                            meta: {
+                                title: "机构审核"
+                            }
+                        },
+
+                    ],
                     meta: {
                         title: "投融对接"
                     }
@@ -171,8 +329,35 @@ var routes = [{
                             resolve(require('pages/manager/jointServer/index.vue'));
                         }, 'jointServer_index');
                     },
+                    redirect:{name:"demandRelease"},
+                    children:[
+                        {
+                            path: 'demandRelease',
+                            name:"demandRelease",
+                            component: function (resolve) {
+                                require.ensure([], function () {
+                                    resolve(require('pages/manager/jointServer/child/demandRelease.vue'));
+                                }, 'demandRelease');
+                            },
+                            meta: {
+                                title: "需求发布"
+                            }
+                        },
+                        {
+                            path: 'orgTender',
+                            name:"orgTender",
+                            component: function (resolve) {
+                                require.ensure([], function () {
+                                    resolve(require('pages/manager/jointServer/child/orgTender.vue'));
+                                }, 'orgTender');
+                            },
+                            meta: {
+                                title: "机构竞标"
+                            }
+                        }
+                    ],
                     meta: {
-                        title: "投融对接"
+                        title: "服务对接"
                     }
                 },
                 {

@@ -6,7 +6,7 @@
         <div class="main-info-warp">
             <div class="search-wrap">
                 <div class="home-wrap-title">
-                    <p class="text-content iconfont">找企业<span> > </span></p>
+                    <p class="text-content iconfont" @click="toCompany">找企业<span> > </span></p>
                     <div class="high-search-content">
                         <high-search
                             :style-object="inputWidth"
@@ -15,41 +15,11 @@
                     </div>
                 </div>
                 <div class="search-content">
-                    <p class="search-firm-item">金融</p>
-                    <p class="search-firm-item">金融</p>
-                    <p class="search-firm-item">金融</p>
-                    <p class="search-firm-item">金融</p>
-                    <p class="search-firm-item">金融</p>
-                    <p class="search-firm-item">金融</p>
-                    <p class="search-firm-item">金融</p>
-                    <p class="search-firm-item">金融</p>
-                    <p class="search-firm-item">金融</p>
-                    <p class="search-firm-item">金融</p>
-                    <p class="search-firm-item">金融</p>
-                    <p class="search-firm-item">金融</p>
-                    <p class="search-firm-item">金融</p>
-                    <p class="search-firm-item">金融</p>
-                    <p class="search-firm-item">金融</p>
-                    <p class="search-firm-item">金融</p>
-                    <p class="search-firm-item">金融</p>
-                    <p class="search-firm-item">金融</p>
-                    <p class="search-firm-item">金融</p>
-                    <p class="search-firm-item">金融</p>
-                    <p class="search-firm-item">金融</p>
-                    <p class="search-firm-item">金融</p>
-                    <p class="search-firm-item">金融</p>
-                    <p class="search-firm-item">金融</p>
-                    <p class="search-firm-item">金融</p>
-                    <p class="search-firm-item">金融</p>
-                    <p class="search-firm-item">文化娱乐</p>
-                    <p class="search-firm-item">金融</p>
-                    <p class="search-firm-item">金融</p>
-                    <p class="search-firm-item">金融</p>
-                    <p class="search-firm-item">金融</p>
-                    <p class="search-firm-item">金融</p>
-                    <p class="search-firm-item">金融</p>
+                    <template v-for="item in findCompany">
+                        <p class="search-firm-item"  >{{ item.name}}</p>
+                    </template>
                     <div>
-                        <p class="search-firm-item more-item">更多</p>
+                        <p class="search-firm-item more-item" @click="toCompany">更多</p>
                     </div>
 
                 </div>
@@ -57,13 +27,16 @@
 
             </div>
             <div class="money-wrap">
-                <p class="find-money text-content" ><span>找资金</span><span class="text iconfont"> > </span></p>
+                <p class="find-money text-content" @click="gofundPage">
+                    <span>找资金</span>
+                    <span class="text iconfont"> > </span>
+                </p>
 
                 <div class="corp-apply-warp">
                     <span>已有</span><span class="corp-num"> 1234 </span><span>家企业提交融资申请</span>
                 </div>
                 <div class="apply-btn-wrap">
-                    <p class="apply-btn">立即申请</p>
+                    <p class="apply-btn" @click="gofundPage">立即申请</p>
                 </div>
 
             </div>
@@ -71,7 +44,7 @@
 
         <div class="financing-warp">
             <div class="success-financing">
-                <div class="financing-title"> <span>最新融资成功的企业</span> <span class="more">查看更多</span></div>
+                <div class="financing-title"> <span>最新融资成功的企业</span> <span class="more" @click="gofundPage">查看更多</span></div>
                 <div class="financing-content">
                     <Table :columns="columns" :data="financData"></Table>
                 </div>
@@ -142,7 +115,7 @@
 
         <div class="good-investment-warp">
             <div class="title-wrap">
-                <span>优质投资机构</span><span class="more">查看更多</span>
+                <span>优质投资机构</span><span class="more" @click="gofundPage">查看更多</span>
             </div>
             <div class="investment-content">
                 <div class="invest-item">
@@ -241,7 +214,7 @@
                 </div>
 
                 <div class="good-invest-content">
-                    <div class="good-invest-item">
+                    <div class="good-invest-item" @click="goInvestCompany">
                         <div class="item-head">
                             <div class="head-img">
                                 <img src="../../assets/images/company-icons.png" alt="">
@@ -267,7 +240,7 @@
                         </div>
 
                     </div>
-                    <div class="good-invest-item">
+                    <div class="good-invest-item"  @click="goInvestCompany">
                         <div class="item-head">
                             <div class="head-img">
                                 <img src="../../assets/images/company-icons.png" alt="">
@@ -476,6 +449,7 @@
                 font-size: 16px;
                 font-weight: 600;
                 text-align: left;
+                cursor: pointer;
 
             }
             .money-wrap{
@@ -678,6 +652,7 @@
                         padding: 1em;
                         border: 1px solid #ccc;
                         margin: 0.2em;
+                        cursor: pointer;
                         .item-head{
                             display: flex;
                             justify-content: space-between;
@@ -755,6 +730,7 @@
 
     import    Ajax from "components/commomComponent/Ajax/index.js"
 
+    import { mapState } from 'vuex'
     export default {
         name: "index",
         props: {
@@ -816,32 +792,81 @@
                         address: 'Ottawa No. 2 Lake Park',
                         date: '2016-10-04'
                     }
-                ]
+                ],
+                findCompany:[] //找企业
                 }
         },
         created() {
             this.init()
+        },
+        computed:{
+            ...mapState("common",['userName']),
 
         },
         methods: {
-             init(){
-                this.getCompanyList()
-             },
-             getCompanyList(){
+            init(){
+                this.getAsyncData();
+                this.getlatestFundCompany()
 
-                 var touristID = "10d84f90e62c4a768c9fd4cc959fcb94";
-                 $.ajax({
-                     type: "POST",
-                     url: "http://112.74.85.207:9285/static/PublicInterfaceMethod",
-                     data: "data={'prefix':'/web/api/invoke2/','Suffix':'/i_investment_institution.query','touristID':'" + touristID + "'}",
-                     dataType: "JSON",
-                     success: function (data) {
-                         console.log(data);
-                     },
-                     error: function (err) {
-                     }
-                 });
-             }
+            },
+            toCompany(){
+                this.$router.push({name:"Company_index"})
+            },
+            gofundPage(){
+                this.$router.push({name:"Fund_index"})
+            },
+            goInvestCompany(){
+                this.$router.push({name:"fundOrgDetails",params:{fundId:123}})
+            },
+            getAsyncData(){
+                var that = this;
+                that.getIndustryQueryData().then(function( data ){
+                    that.findCompany  = data.info_list
+                })
+            },
+            //最新融资成功企业
+            getlatestFundCompany(){
+                var obj  ={
+                    prefix:'/web/api/invoke2/',
+                    Suffix:"/user_role.query_by_role",
+                    sessionId: this.userName
+                };
+                $.ajax({
+                    type: "POST",
+                    url: "http://112.74.85.207:9283/web/PublicInterfaceMethod",
+                    data:"data="+JSON.stringify(obj),
+                    dataType: "JSON",
+                    success: function (data) {
+                        console.log("data"+data)
+
+                    },
+                    error: function(err) {
+                    }
+                });
+            },
+            /*行业查询*/
+            getIndustryQueryData(data){
+                var obj  ={
+                    prefix:'/web/api/invoke2/',
+                    Suffix:"/i_industry.query",
+                    sessionId: this.userName
+                };
+                return   $.ajax({
+                    type: "POST",
+                    url: "http://112.74.85.207:9283/web/PublicInterfaceMethod",
+                   // data:"data={'prefix':'/web/api/invoke2/','Suffix':'/i_industry.query','sessionId':'test'}",
+                    data:"data="+JSON.stringify(obj),
+                    dataType: "JSON",
+                    success: function (data) {
+
+                    },
+                    error: function(err) {
+                    }
+                });
+             },
+        },
+        mounted:function () {
+
         },
         watch: {}
     }

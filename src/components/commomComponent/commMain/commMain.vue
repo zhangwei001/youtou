@@ -7,7 +7,7 @@
     }
     ##{$prefixCls}_content{
         position: relative;
-        padding: 0px 1em;
+
     }
 
 </style>

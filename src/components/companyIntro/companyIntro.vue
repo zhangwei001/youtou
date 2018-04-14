@@ -22,7 +22,7 @@
         </div>
         <div class="right-handle-wrap">
             <div class="handle-btns">
-                 <p class="check-details  btn">查看详情</p>
+                 <p class="check-details  btn" @click="goDetails">查看详情</p>
                  <p class="get-connection btn">立即沟通</p>
             </div>
 
@@ -73,10 +73,13 @@
                 .btn{
                     background: #cccccc;
                     border-radius: 5px;
-                    border: transparent;
+                    border: 1px solid transparent;
                     padding: 0.5em 0.9em;
                     margin-bottom: 0.5em;
                     cursor: pointer;
+                    &:hover{
+                        border-color: rgba(34,182,255,.95);
+                    }
                 }
                 .check-details{
 
@@ -101,20 +104,27 @@
             companyInfo:{
                 type: Object,
                 default() {
-                    return {};
+                    return {
+
+                    };
                 }
             }
 
         },
         components: {},
         data() {
-            return {}
+            return { fundId:123}
 
         },
         created() {
 
         },
-        methods: {},
+        methods: {
+            goDetails(){
+                 this.$router.push({ name: 'fundOrgDetails',params:{fundId:this.fundId}})
+            }
+
+        },
         watch: {},
     }
 </script>

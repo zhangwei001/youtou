@@ -3,12 +3,10 @@
 export default {
     namespaced: true,
     state: {
-        isShowUserCenterHomePage:true
+        userName:"test"
     },
     mutations: {
-        userCenterNavHandle(state){
-             state.isShowUserCenterHomePage = false
-        },
+
 
     },
     actions: {

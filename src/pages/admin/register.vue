@@ -135,7 +135,7 @@
 
 
     export default {
-        name: " ",
+        name: "register",
         props: {
 
         },

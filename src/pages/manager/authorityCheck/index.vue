@@ -39,8 +39,8 @@
                     <div class="content-item">融资企业</div>
                     <div class="content-item">2017-12-11</div>
                     <div class="content-item">
-                        <div class="look-in btn">查看</div>
-                        <div class="check-in btn">审核</div>
+                        <div class="look-in btn" @click="lookInHandle">查看</div>
+                        <div class="check-in btn" @click="checkHandle">审核</div>
                     </div>
                 </div>
 
@@ -157,7 +157,15 @@
         created() {
 
         },
-        methods: {},
+        methods: {
+            lookInHandle(){
+                this.$router.push({name:""})
+
+            },
+            checkHandle(){
+
+            }
+        },
         watch: {},
     }
 </script>
