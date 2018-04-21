@@ -3,17 +3,19 @@
         <div class="search-content-list">
                 <div class="search-content-item">
                     <div class="search-title-wrap">
-                        <p  class="search-item-title ">{{ searchConditionData.searchTitile }} <span>:</span></p>
+                        <p  class="search-item-title "><span>{{ conditionData.searchTitile }}</span> <span>：</span></p>
                     </div>
-                    <template v-for="item in searchConditionData.searchContent">
-                        <div class="search-item-content  " @click="selectItemHandle(searchConditionData.searchItemId,item.value)">
-                            <p class="search-item-name" :class="{'selected-item': item.value==-1? true:false}">{{ item.name }}</p>
-                        </div>
-                    </template>
-                    <div class="search-item-content" v-if="searchConditionData.otherAction">
-                        <p class="iconfont-financing multiple-select" v-if="searchConditionData.otherAction.type == 'multipleSelect'" v-html="searchConditionData.otherAction.name"> </p>
-                        <p class="more" v-if="searchConditionData.otherAction.type == 'more'" v-html="searchConditionData.otherAction.name"> </p>
+                    <div class="search-details-wrap">
+                        <template v-for="item in conditionData.searchContent">
+                            <div class="search-item-content  " @click="selectItemHandle(conditionData.searchItemId,item.number)">
+                                <p class="search-item-name" :class="{'selected-item': conditionData.searchItemId.includes(item.number) ||  item.number== conditionData.searchItemId ? true:false}">{{ item.name }}</p>
+                            </div>
+                        </template>
+                        <div class="search-item-content" v-if="conditionData.otherAction">
+                            <p class="iconfont-financing multiple-select" :class="{'active-multi': conditionData.otherAction.isSelect}" @click="toggleMultSelectHandle" v-if="conditionData.otherAction.type == 'multipleSelect'" v-html="conditionData.otherAction.name"> </p>
+                            <p class="more" v-if="conditionData.otherAction.type == 'more'" v-html="conditionData.otherAction.name"> </p>
 
+                        </div>
                     </div>
                 </div>
         </div>
@@ -30,13 +32,18 @@
         font-size: 16px;
         .search-content-list{
             .search-content-item{
+                display: flex;
                 .search-title-wrap{
                     display: inline-flex;
-                    justify-content: center;
-                    align-items: center;
+                    justify-content: flex-start;
+                    align-items: flex-start;
                     padding: 0px 1em;
                     .search-item-title{
-
+                        padding: 0px 5px;
+                        border-radius: 5px;
+                        text-align: center;
+                        width: 7em;
+                        display: inline-flex;
                     }
                     .all-item-search{
                         width: 3em;
@@ -66,7 +73,11 @@
                         line-height: 2em;
                         border-radius: 5px;
                         cursor: pointer;
-
+                    }
+                    .active-multi{
+                        background: rgba(57, 210, 55, 0.95);
+                        color: wheat;
+                        border-radius: 5px;
                     }
                 }
                 .selected-item{
@@ -98,7 +109,9 @@
         },
         components: {},
         data() {
-            return {}
+            return {
+                 conditionData:this.searchConditionData
+            }
 
         },
         created() {
@@ -107,7 +120,25 @@
         methods: {
 
             selectItemHandle(searchItemId,searchContentId){
-                this.$emit("select-search-item", searchItemId , searchContentId )
+                this.$emit("select-search-item", searchItemId , searchContentId );
+                if( this.conditionData.searchType == 'single'){
+                    this.conditionData.searchItemId = Array.of(searchContentId);
+                }else if(this.conditionData.searchType == 'multi'){
+                   if( this.conditionData.otherAction.isSelect ){
+                       if(this.conditionData.searchItemId.includes( searchContentId )){
+                           this.conditionData.searchItemId.splice( this.conditionData.searchItemId.indexOf(searchContentId),1)
+                       }else{
+                           this.conditionData.searchItemId =this.conditionData.searchItemId.concat(searchContentId)
+                       }
+                    }else{
+                        this.conditionData.searchItemId = Array.of(searchContentId);
+                    }
+                }
+            },
+            toggleMultSelectHandle(){
+                this.conditionData.otherAction.isSelect = ! this.conditionData.otherAction.isSelect;
+
+                this.conditionData.searchItemId =  [this.conditionData.searchContent[0].number]
             }
         },
         watch: {},

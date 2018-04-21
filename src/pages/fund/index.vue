@@ -81,7 +81,7 @@
 
     import companyIntro   from "components/companyIntro/index.js"
 
-
+    import { mapState } from 'vuex'
     export default {
         name: "fund",
         props: {
@@ -99,6 +99,10 @@
             commFoot
 
         },
+        computed:{
+            ...mapState("common",['userName']),
+
+        },
         data() {
             return {
                 inputWidth:{width:"20em"},
@@ -106,32 +110,35 @@
                 mainSearchConditionList:[
                     {
                         searchTitile:"融资方式",
-                        searchItemId:0,
+                        searchType:"multi", //单选或者多选 multi /single
+                        searchItemId:[-1],
                         searchContent:[
-                            {name:"全部",value:-1},
-                            {name:"股权融资",value:0},
-                            {name:"整体转让",value:1},
-                            {name:"债权融资",value:2},
-                            {name:"其他",value:3}
+                            {name:"全部",number:-1}
+//                            {name:"股权融资",value:0},
+//                            {name:"整体转让",value:1},
+//                            {name:"债权融资",value:2},
+//                            {name:"其他",value:3}
                         ],
                         otherAction:{
                             type:"multipleSelect",
                             name:"&#xe6a9;多选",
-                            value:1000
+                            value:1000,
+                            isSelect:false
 
                         }
                     },
                     {
                         searchTitile:"融资阶段",
-                        searchItemId:1,
+                        searchType:"single",
+                        searchItemId:[-1],
                         searchContent:[
-                            {name:"全部",value:-1},
-                            {name:"种子天使轮",value:0},
-                            {name:"Pre-A轮",value:1},
-                            {name:"A轮",value:2},
-                            {name:"B轮",value:3},
-                            {name:"C轮及以后",value:4},
-                            {name:"Pre-IPO",value:5}
+                            {name:"全部",number:-1},
+//                            {name:"种子天使轮",value:0},
+//                            {name:"Pre-A轮",value:1},
+//                            {name:"A轮",value:2},
+//                            {name:"B轮",value:3},
+//                            {name:"C轮及以后",value:4},
+//                            {name:"Pre-IPO",value:5}
                         ],
                         otherAction:{
                             type:"more",
@@ -142,15 +149,16 @@
                     ,
                     {
                         searchTitile:"投资行业",
-                        searchItemId:2,
+                        searchItemId:[-1],
+                        searchType:"single",
                         searchContent:[
-                            {name:"全部",value:-1},
-                            {name:"移动互联",value:0},
-                            {name:"节能环保",value:1},
-                            {name:"文化传媒",value:2},
-                            {name:"新材料",value:3},
-                            {name:"生物医药",value:4},
-                            {name:"消费服务",value:5}
+                            {name:"全部",number:-1},
+//                            {name:"移动互联",value:0},
+//                            {name:"节能环保",value:1},
+//                            {name:"文化传媒",value:2},
+//                            {name:"新材料",value:3},
+//                            {name:"生物医药",value:4},
+//                            {name:"消费服务",value:5}
                         ],
                         otherAction:{
                             type:"more",
@@ -161,15 +169,16 @@
                     ,
                     {
                         searchTitile:"投资地区",
-                        searchItemId:3,
+                        searchItemId:[-1],
+                        searchType:"single",
                         searchContent:[
-                            {name:"全部",value:-1},
-                            {name:"北京",value:0},
-                            {name:"上海",value:1},
-                            {name:"广东省",value:2},
-                            {name:"江苏省",value:3},
-                            {name:"山东省",value:4},
-                            {name:"湖北省",value:5}
+                            {name:"全部",number:-1},
+//                            {name:"北京",value:0},
+//                            {name:"上海",value:1},
+//                            {name:"广东省",value:2},
+//                            {name:"江苏省",value:3},
+//                            {name:"山东省",value:4},
+//                            {name:"湖北省",value:5}
                         ],
                         otherAction:{
                             type:"more",
@@ -205,11 +214,18 @@
                     }
 
 
-                ]
+                ],
+                FundType:[] ,// 融资方式
+                FundStage:[]  ,//融资阶段
+
+                Fundndustry:[] ,//投资行业
+
+                FundArea:[] //投资地区
             }
 
         },
         created() {
+            this.init()
 
         },
         methods: {
@@ -217,6 +233,141 @@
                 console.log( searchItemId+"<<<>>>"+searchContentId)
 
             },
+            init(){
+                var that = this;
+                $.when(this.getFundType(), this.getFundStage(),this.getFundndustry(),this.getFundArea())
+                    .then(function () {
+                        that.getFundOrgData()
+
+
+                })
+
+            },
+
+            //融资方式
+            getFundType(){
+                var that = this;
+                var obj  ={
+                    prefix:'/web/api/invoke2/',
+                    Suffix:"/i_mode.query",
+                    sessionId: this.userName
+                };
+                $.ajax({
+                    type: "POST",
+                    url: "http://112.74.85.207:9283/web/PublicInterfaceMethod",
+                    data:"data="+JSON.stringify(obj),
+                    dataType: "JSON",
+                    success: function (data) {
+                        console.log("融资方式"+data.info_list);
+                       // that.FundType = data.info_list;
+                        that.mainSearchConditionList[0].searchContent =
+                            that.mainSearchConditionList[0].searchContent.concat(data.info_list);
+
+                    },
+                    error: function(err) {
+                    }
+                });
+            },
+            //融资阶段
+            getFundStage(){
+                var  that = this;
+                var obj  ={
+                    prefix:'/web/api/invoke2/',
+                    Suffix:"/i_stage.query",
+                    sessionId: this.userName
+                };
+                $.ajax({
+                    type: "POST",
+                    url: "http://112.74.85.207:9283/web/PublicInterfaceMethod",
+                    data:"data="+JSON.stringify(obj),
+                    dataType: "JSON",
+                    success: function (data) {
+                        console.log("融资阶段"+JSON.stringify(data));
+
+                        that.mainSearchConditionList[1].searchContent =
+                            that.mainSearchConditionList[1].searchContent.concat(data.info_list);
+
+                        //that.FundStage = data.info_list;
+
+                    },
+                    error: function(err) {
+                    }
+                });
+            },
+            //投资行业
+            getFundndustry(){
+                var that =this;
+                var obj  ={
+                    prefix:'/web/api/invoke2/',
+                    Suffix:"/i_industry.query",
+                    sessionId: this.userName
+                };
+                $.ajax({
+                    type: "POST",
+                    url: "http://112.74.85.207:9283/web/PublicInterfaceMethod",
+                    data:"data="+JSON.stringify(obj),
+                    dataType: "JSON",
+                    success: function (data) {
+                        console.log("投资行业"+JSON.stringify(data));
+                       // that.Fundndustry = data.info_list;
+                        that.mainSearchConditionList[2].searchContent =
+                            that.mainSearchConditionList[2].searchContent.concat(data.info_list);
+
+                    },
+                    error: function(err) {
+                    }
+                });
+            },
+            //投资地区
+            getFundArea(){
+                var that =this;
+                var obj  ={
+                    prefix:'/web/api/invoke2/',
+                    Suffix:"/i_area.query",
+                    sessionId: this.userName
+                };
+                $.ajax({
+                    type: "POST",
+                    url: "http://112.74.85.207:9283/web/PublicInterfaceMethod",
+                    data:"data="+JSON.stringify(obj),
+                    dataType: "JSON",
+                    success: function (data) {
+                        console.log("投资地区"+JSON.stringify(data));
+                      //  that.FundArea = data.info_list;
+                        that.mainSearchConditionList[3].searchContent =
+                            that.mainSearchConditionList[3].searchContent.concat(data.info_list);
+
+                    },
+                    error: function(err) {
+                    }
+                });
+            },
+            //投资机构查询的接口名
+            getFundOrgData(){
+                var that =this;
+                var obj  ={
+                    prefix:'/web/api/invoke2/',
+                    Suffix:"/i_investment_institution.query",
+                    sessionId: this.userName
+                };
+                $.ajax({
+                    type: "POST",
+                    url: "http://112.74.85.207:9283/web/PublicInterfaceMethod",
+                    data:"data="+JSON.stringify(obj),
+                    dataType: "JSON",
+                    success: function (data) {
+                        console.log("投资地区"+JSON.stringify(data));
+                        //  that.FundArea = data.info_list;
+                        that.mainSearchConditionList[3].searchContent =
+                            that.mainSearchConditionList[3].searchContent.concat(data.info_list);
+
+                    },
+                    error: function(err) {
+                    }
+                });
+
+            }
+
 
 
         },

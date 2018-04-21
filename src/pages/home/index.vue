@@ -793,7 +793,8 @@
                         date: '2016-10-04'
                     }
                 ],
-                findCompany:[] //找企业
+                findCompany:[] ,//找企业
+                bestFundCompany:[] //优质融资企业
                 }
         },
         created() {
@@ -806,7 +807,8 @@
         methods: {
             init(){
                 this.getAsyncData();
-                this.getlatestFundCompany()
+                this.getlatestFundCompany();
+                this.getBestFundCompany()
 
             },
             toCompany(){
@@ -844,6 +846,28 @@
                     }
                 });
             },
+
+            //优质融资企业的接口名
+            getBestFundCompany(){
+                var obj  ={
+                    prefix:'/web/api/invoke2/',
+                    Suffix:"/i_financing_enterprise.query",
+                    sessionId: this.userName
+                };
+                $.ajax({
+                    type: "POST",
+                    url: "http://112.74.85.207:9283/web/PublicInterfaceMethod",
+                    data:"data="+JSON.stringify(obj),
+                    dataType: "JSON",
+                    success: function (data) {
+                       that.bestFundCompany = data.info_list
+
+                    },
+                    error: function(err) {
+                    }
+                });
+            },
+
             /*行业查询*/
             getIndustryQueryData(data){
                 var obj  ={

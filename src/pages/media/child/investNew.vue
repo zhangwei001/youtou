@@ -29,7 +29,7 @@
 
 
     export default {
-        name: " ",
+        name: "investNew",
         props: {
             newsData: {
                 type: Object,

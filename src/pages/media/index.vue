@@ -170,6 +170,7 @@
     import investNew from "./child/investNew"
     import mediaNews from "./child/mediaNews"
     import itemRank from "components/itemRank/itemRank"
+    import { mapState } from 'vuex'
 
 
     export default {
@@ -182,12 +183,16 @@
                 }
             }
         },
+        computed:{
+            ...mapState("common",['userName']),
+        },
         components: {
             investNew,
             commFoot,
             itemRank,
             mediaNews
         },
+
         data() {
             return {
                 investDataList:[
@@ -238,9 +243,33 @@
 
         },
         created() {
-
+            this.init()
         },
-        methods: {},
+        methods: {
+
+            init(){
+                this.getData()
+            },
+            getData(){
+                var obj  ={
+                    prefix:'/web/api/invoke2/',
+                    Suffix:"/i_media_information.query",
+                    sessionId: this.userName
+                };
+                  $.ajax({
+                    type: "POST",
+                    url: "http://112.74.85.207:9283/web/PublicInterfaceMethod",
+                    // data:"data={'prefix':'/web/api/invoke2/','Suffix':'/i_industry.query','sessionId':'test'}",
+                    data:"data="+JSON.stringify(obj),
+                    dataType: "JSON",
+                    success: function (data) {
+
+                    },
+                    error: function(err) {
+                    }
+                });
+            }
+        },
         watch: {},
     }
 </script>

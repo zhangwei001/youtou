@@ -56,7 +56,7 @@
 
 
     export default {
-        name: " ",
+        name: "mediaNews",
         props: {
             addListData: {
                 type: Object,
